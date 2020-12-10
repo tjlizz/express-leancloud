@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+</head>
+<body>
+<img id="avatar" src="" alt="">
+</body>
+
+<script>
+
+
+    if (!localStorage.getItem("accessToken")) {
+
+        window.location.href = 'index.html'
+    }
+
+
+    let accessToken = localStorage.getItem("accessToken")
+    $.ajax({
+        url: '/api/user/',
+        type: 'get',
+        success: function (data) {
+            $('#avatar').attr('src', data)
+        },
+        headers: {
+            'accessToken': localStorage.getItem("accessToken")
+        },
+    })
+
+</script>
+</html>

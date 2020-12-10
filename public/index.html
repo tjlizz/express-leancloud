@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <style>
+        .container {
+            display: flex;
+            /*flex-direction: column;*/
+            align-content: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img id="qrcode" src="" alt="">
+
+</div>
+</body>
+<script>
+    let ws = null;
+    const SOCKET_URL = "ws://xx996.cn:8086/socketServer/"
+    $.ajax({
+        url: "http://xx996.cn/jzb/api/wx/qrcode",
+        type: 'get',
+        success: function (data) {
+            $('#qrcode').attr("src", "/jzb/" + data + ".jpeg")
+            webSocketConnect(data)
+
+        }
+    })
+
+    function webSocketConnect(clientId) {
+        if ('WebSocket' in window) {
+            //ws = new WebSocket("ws://www.isuyu.cn:8086/socketServer/"+$("#username").val());
+            ws = new WebSocket(SOCKET_URL + clientId);
+        } else if ('MozWebSocket' in window) {
+            //ws = new MozWebSocket("ws://www.isuyu.cn:8086/socketServer/"+$("#username").val());
+            ws = new WebSocket(SOCKET_URL + clientId);
+        } else {
+            alert("该浏览器不支持websocket");
+        }
+        ws.onmessage = function (evt) {
+            // let mess = JSON.parse(evt.data)
+            // evt.data = "78ef78c8-9c0b-4c44-be85-7458bd4fbc69"
+            // localStorage.setItem("accessToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OGVmNzhjOC05YzBiLTRjNDQtYmU4NS03NDU4YmQ0ZmJjNjkiLCJpYXQiOjE2MDc1MjIwNzYsImV4cCI6MTYwNzUyNTY3Nn0.11agkC4lMn9DoQG5WT5pETGKlSqmwLowMO-Q91Lvyxs")
+            localStorage.setItem("accessToken", evt.data)
+            window.location.href = 'me.html'
+
+        };
+    }
+
+
+</script>
+
+</html>
