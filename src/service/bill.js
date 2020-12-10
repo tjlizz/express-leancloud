@@ -4,7 +4,6 @@ import AV from 'leancloud-storage'
 import log4js from '../log4j/log4j'
 
 const errorlog = log4js.getLogger('error');
-const infolog = log4js.getLogger('info');
 export default class Bill {
     addBill(data) {
         return new Promise((resolve, reject) => {
@@ -19,15 +18,12 @@ export default class Bill {
             billInfo.save().then(res => {
                 resolve(res.id)
             }).catch(e => {
-
                 resolve(Common.unifyResponse("新增失败", 500))
             })
         })
     }
-
     getBillList(year, month, userId) {
         return new Promise((resolve, reject) => {
-
             let startTime = year + "-" + month + "-01  "
             let endTime = year + "-" + month + "-31  "
             const startDateQuery = new AV.Query('BillInfo');
@@ -44,11 +40,8 @@ export default class Bill {
                 resolve(result)
             }).catch(e => {
                 errorlog.error(e)
-                infolog.info("info")
                 resolve(Common.unifyResponse("服务异常", 500))
             });
         })
     }
-
-
 }
