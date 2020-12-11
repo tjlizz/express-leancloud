@@ -18,7 +18,9 @@ $ cd express-leancloud
   ```json
 {
       "host": "192.168.11.57",
-      "port": 6379
+      "port": 6379,
+      "passWord": "123456"
+
 }
 ```
  * jwt.json
