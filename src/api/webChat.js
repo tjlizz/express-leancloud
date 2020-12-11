@@ -43,7 +43,6 @@ LoginRouter.get('/qrcode', async (req, res) => {
 LoginRouter.post("/qrlogin/:clientId", (req, res) => {
     let userId = req["userId"];
     let clientId = req.params.clientId
-    console.log(req.params, 'clientId');
     let token = makeToken(userId);
     axios.post(apiConfig.socketUrl, {
         clientId,

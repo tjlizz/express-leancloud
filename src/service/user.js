@@ -9,7 +9,6 @@ const addUser = (data) => {
     return new Promise(async (resolved, reject) => {
         let userList = await getUser(data.unionId)
         if (userList && userList.length > 0) {
-            console.log(userList[0].get("objectId"));
             if (userList[0].get("avatarUrl") != data.avatarUrl) {
                 const todo = AV.Object.createWithoutData('UserInfo', userList[0].get("objectId"));
                 todo.set('avatarUrl', data.avatarUrl);
@@ -18,7 +17,6 @@ const addUser = (data) => {
             resolved(userList[0].get("userId"))
             return
         }
-        console.log(data);
         const User = LeanCloud.baseAV().Object.extend('UserInfo');
         let user = new User();
         user.set('userId', uuidv4());

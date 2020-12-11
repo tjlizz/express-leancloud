@@ -15,7 +15,6 @@ billRouter.get('/:year/:month', async (req, res, next) => {
     const userId = req["userId"]
     const year = req.params.year
     const month = req.params.month
-
     let result = await billService.getBillList(year, month, userId)
     Common.sendResponse(result, res)
 })
