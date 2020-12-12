@@ -33,6 +33,7 @@ export default class Bill {
             const userQuery = new AV.Query("BillInfo");
             userQuery.equalTo("userId", userId)
             const query = AV.Query.and(startDateQuery, endDateQuery, userQuery);
+            query.descending('orderIndex');
             query.descending('billTime');
             let result = {cycleDate: year + '-' + month, data: []}
             query.find().then((user) => {

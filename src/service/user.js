@@ -9,7 +9,6 @@ const addUser = (data) => {
     return new Promise(async (resolved, reject) => {
         let userList = await getUser(data.unionId)
         if (userList && userList.length > 0) {
-            console.log(data);
             if (userList[0].get("avatarUrl") != data.avatarUrl||userList[0].nickName!=data.nickName) {
                 const todo = AV.Object.createWithoutData('UserInfo', userList[0].get("objectId"));
                 todo.set('avatarUrl', data.avatarUrl);
