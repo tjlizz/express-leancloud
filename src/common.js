@@ -8,12 +8,20 @@ export default class Common {
             return
         }
         if (data.error_code) {
-            res.status(data.error_code).send(data.mess)
+            res.status(data.error_code).send(data)
             return
         }
         res.send(data)
 
     }
+
+    static unifyDataResponse(data, error_code) {
+        error_code = error_code ? error_code : 0
+        return {
+            data, error_code
+        }
+    }
+
 
     static unifyResponse(mess, error_code) {
         return {

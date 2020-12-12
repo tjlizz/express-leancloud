@@ -5,6 +5,7 @@ import log4js from "../log4j/log4j";
 import redisClient from "../redis/redis";
 import fs from 'fs'
 import path from 'path'
+
 const errorlog = log4js.getLogger('error');
 let webChatConfig = Common.readFile(path.join(__dirname, "../../webChat.json"))
 let {appId, secretKey} = JSON.parse(webChatConfig.toString())
@@ -82,10 +83,24 @@ const getAccessToken = (user) => {
     })
 
 }
+const messageCheck = (content) => {
+    return new Promise(async (resolve, reject) => {
+        const accessToken = await getWebChatAccessToken();
+        console.log(content,'要判断的消息');
+        axios.post(`https://api.weixin.qq.com/wxa/msg_sec_check?access_token=${accessToken}`, {
+            content:content
+        }).then(data => {
+            resolve(data.data)
+        }).catch(e => {
+            resolve(Common.unifyResponse("微信服务异常", 500))
+        })
+    })
+}
 export {
     getAccessToken,
     webChatLogin,
     decryptData,
     getWebChatAccessToken,
-    getQRCode
+    getQRCode,
+    messageCheck
 }

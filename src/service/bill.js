@@ -2,13 +2,21 @@ import LeanCloud from "../leanCloud/leanCloud";
 import Common from "../common";
 import AV from 'leancloud-storage'
 import log4js from '../log4j/log4j'
+import {messageCheck} from "../webChart/demo";
 
 const errorlog = log4js.getLogger('error');
 export default class Bill {
     addBill(data) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const BillModel = LeanCloud.baseAV().Object.extend('BillInfo');
             let billInfo = new BillModel();
+            if (data.billRemark) {
+
+                let mesCheck = await messageCheck(data.billRemark)
+                if (mesCheck.errcode !== 0) {
+                    resolve(Common.unifyResponse("内容含有违法违规内容", 500))
+                }
+            }
             billInfo.set("billAmount", data.billAmount);
             billInfo.set("billTime", new Date(data.billTime));
             billInfo.set("billRemark", data.billRemark);
@@ -16,12 +24,13 @@ export default class Bill {
             billInfo.set("userId", data.userId);
             billInfo.set("billClass", data.billClass)
             billInfo.save().then(res => {
-                resolve(res.id)
+                resolve(Common.unifyDataResponse(data.id))
             }).catch(e => {
                 resolve(Common.unifyResponse("新增失败", 500))
             })
         })
     }
+
     getBillList(year, month, userId) {
         return new Promise((resolve, reject) => {
             let startTime = year + "-" + month + "-01  "
@@ -33,8 +42,8 @@ export default class Bill {
             const userQuery = new AV.Query("BillInfo");
             userQuery.equalTo("userId", userId)
             const query = AV.Query.and(startDateQuery, endDateQuery, userQuery);
+            // query.descending('orderIndex');
             query.descending('orderIndex');
-            query.descending('billTime');
             let result = {cycleDate: year + '-' + month, data: []}
             query.find().then((user) => {
                 result.data = user
