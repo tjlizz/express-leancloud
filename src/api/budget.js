@@ -9,7 +9,6 @@ budgetRouter.post('/', async (req, res) => {
     body["userId"] = userId;
     let result = await budgetService.addBudget(body)
     Common.sendResponse(result, res)
-
 })
 
 budgetRouter.put('/', async (req, res) => {
@@ -22,6 +21,4 @@ budgetRouter.get('/:year/:month', async (req, res) => {
     let month = req.params.month;
     let list = await budgetService.getBudgetList(userId, year, month)
     Common.sendResponse(list, res)
-
-
 })

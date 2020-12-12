@@ -17,6 +17,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+let passUrl = ['/', '/api/wx']
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers', 'Authorization,X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method')
@@ -30,6 +31,11 @@ app.use(async (req, res, next) => {
         next()
         return
     }
+    if (req.url == '/index.html' || req.url == "/" || req.url.indexOf('jpeg') !== -1) {
+        next()
+        return
+    }
+
     if (apiConfig.defaultUserId) {
         next()
         return
