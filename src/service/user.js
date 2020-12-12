@@ -9,10 +9,10 @@ const addUser = (data) => {
     return new Promise(async (resolved, reject) => {
         let userList = await getUser(data.unionId)
         if (userList && userList.length > 0) {
-            if (userList[0].get("avatarUrl") != data.avatarUrl||userList[0].nickName!=data.nickName) {
+            if (userList[0].get("avatarUrl") != data.avatarUrl || userList[0].nickName != data.nickName) {
                 const todo = AV.Object.createWithoutData('UserInfo', userList[0].get("objectId"));
                 todo.set('avatarUrl', data.avatarUrl);
-                todo.set('nickName',data.nickName)
+                todo.set('nickName', data.nickName)
                 todo.save();
             }
             resolved(userList[0].get("userId"))
@@ -24,6 +24,7 @@ const addUser = (data) => {
         user.set('city', data.city)
         user.set("avatarUrl", data.avatarUrl)
         user.set('province', data.province)
+        user.set("nickName", data.nickName)
         user.set('country', data.country)
         user.set('gender', data.gender.toString())
         user.set('unionId', data.unionId)
