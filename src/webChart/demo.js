@@ -50,14 +50,14 @@ const webChatLogin = (code => {
 const getQRCode = (access_token) => {
     return new Promise((resolve, reject) => {
         let fileName = Common.randomNumber()
-        let url = `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`
+        let url = `https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=${access_token}`
         axios.request({
             method: 'post',
             responseType: 'arraybuffer',
             url,
             data: {
-                scene: "clientId=" + fileName,
-                page: 'pages/login/login',
+                // scene: "clientId=" + fileName,
+                path: 'pages/login/login?clientId='+fileName,
             },
             headers: {
                 'Content-Type': 'application/json;charset=null'
