@@ -6,7 +6,13 @@ let billService = new Bill();
 let billRouter = express.Router();
 billRouter.post('/', async (req, res, next) => {
     let data = req.body;
-    data["userId"] = req["userId"]
+    let userId=req["userId"]
+     if(!userId){
+         Common.sendResponse(Common.unifyResponse("请重新登录",403));
+         return
+
+     }
+    data["userId"] = userId;
     let result = await billService.addBill(data)
     Common.sendResponse(result, res);
 })

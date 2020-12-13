@@ -24,7 +24,7 @@ export default class Bill {
             billInfo.set("userId", data.userId);
             billInfo.set("billClass", data.billClass)
             billInfo.save().then(res => {
-                resolve(Common.unifyDataResponse(data.id))
+                resolve(data.id)
             }).catch(e => {
                 resolve(Common.unifyResponse("新增失败", 500))
             })
