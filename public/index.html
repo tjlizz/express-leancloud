@@ -38,18 +38,13 @@
 
     function webSocketConnect(clientId) {
         if ('WebSocket' in window) {
-            //ws = new WebSocket("ws://www.isuyu.cn:8086/socketServer/"+$("#username").val());
             ws = new WebSocket(SOCKET_URL + clientId);
         } else if ('MozWebSocket' in window) {
-            //ws = new MozWebSocket("ws://www.isuyu.cn:8086/socketServer/"+$("#username").val());
             ws = new WebSocket(SOCKET_URL + clientId);
         } else {
             alert("该浏览器不支持websocket");
         }
         ws.onmessage = function (evt) {
-            // let mess = JSON.parse(evt.data)
-            // evt.data = "78ef78c8-9c0b-4c44-be85-7458bd4fbc69"
-            // localStorage.setItem("accessToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3OGVmNzhjOC05YzBiLTRjNDQtYmU4NS03NDU4YmQ0ZmJjNjkiLCJpYXQiOjE2MDc1MjIwNzYsImV4cCI6MTYwNzUyNTY3Nn0.11agkC4lMn9DoQG5WT5pETGKlSqmwLowMO-Q91Lvyxs")
             localStorage.setItem("accessToken", evt.data)
             window.location.href = 'me.html'
 

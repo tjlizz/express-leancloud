@@ -37,6 +37,7 @@ app.use(async (req, res, next) => {
     }
 
     if (apiConfig.defaultUserId) {
+        req["userId"]=apiConfig.defaultUserId
         next()
         return
     }
