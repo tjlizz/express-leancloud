@@ -3,6 +3,7 @@ import Common from "../common";
 import AV from 'leancloud-storage'
 import log4js from '../log4j/log4j'
 import {messageCheck} from "../webChart/demo";
+
 const CLASS_NAME = "BillInfo"
 const errorlog = log4js.getLogger('error');
 export default class Bill {
@@ -13,7 +14,7 @@ export default class Bill {
             if (data.billRemark) {
                 let mesCheck = await messageCheck(data.billRemark)
                 if (mesCheck.errcode !== 0) {
-                    resolve(Common.unifyResponse("内容含有违法违规内容",   ))
+                    resolve(Common.unifyResponse("内容含有违法违规内容",))
                 }
             }
             billInfo.set("billAmount", data.billAmount);
@@ -29,6 +30,7 @@ export default class Bill {
             })
         })
     }
+
     deleteBill(id) {
         try {
             const billInfo = new AV.Object.createWithoutData(CLASS_NAME, id);
@@ -38,10 +40,13 @@ export default class Bill {
             return Common.unifyResponse("删除失败", 500)
         }
     }
+
     getBillList(year, month, userId) {
         return new Promise((resolve, reject) => {
-            let startTime = year + "-" + month + "-01  "
-            let endTime = year + "-" + month + "-31  "
+            let startMonth = "01"
+            let endMonth = "12";
+            let startTime = year + "-" + startMonth + "-01  "
+            let endTime = year + "-" + endMonth + "-31  "
             const startDateQuery = new AV.Query('BillInfo');
             startDateQuery.greaterThanOrEqualTo('billTime', new Date(startTime));
             const endDateQuery = new AV.Query('BillInfo');
@@ -61,6 +66,7 @@ export default class Bill {
             });
         })
     }
+
     analysisData(data) {
         let result = {}
         data.forEach(item => {
@@ -90,6 +96,7 @@ export default class Bill {
         })
         return result;
     }
+
     billStatisticsOfYear(year, userId) {
         return new Promise((resolve, reject) => {
             let startTime = year + "-" + 1 + "-01  "
