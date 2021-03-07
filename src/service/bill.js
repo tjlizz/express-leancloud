@@ -119,4 +119,31 @@ export default class Bill {
             )
         })
     }
+    getBillListByTime({userId,startYear,startMonth,endYear,endMonth}) {
+        return new Promise((resolve, reject) => {
+
+            let startTime = startYear + "-" + startMonth + "-01  "
+            let endTime = endYear + "-" + endMonth + "-31  "
+            const startDateQuery = new AV.Query('BillInfo');
+            startDateQuery.greaterThanOrEqualTo('billTime', new Date(startTime));
+            const endDateQuery = new AV.Query('BillInfo');
+            endDateQuery.lessThan('billTime', new Date(endTime));
+            const userQuery = new AV.Query("BillInfo");
+            userQuery.equalTo("userId", userId)
+            const query = AV.Query.and(startDateQuery, endDateQuery, userQuery);
+            query.descending('billTime');
+            let result = { data: []}
+            query.find().then((user) => {
+                console.log(user);
+                result.data = user
+                resolve(result)
+            }).catch(e => {
+                console.log(e);
+                errorlog.error(e)
+                infolog.info("info")
+                resolve(Common.unifyResponse("服务异常", 500))
+            });
+        })
+    }
+
 }
